@@ -1,5 +1,9 @@
+
 import axios from "axios";
 import { useEffect, useState } from "react";
+
+const API_URL =
+  "https://mern-student-management-jordan-i3za.vercel.app/students";
 
 function App() {
   const [students, setStudents] = useState([]);
@@ -10,7 +14,7 @@ function App() {
 
   const fetchStudents = () => {
     axios
-      .get("http://localhost:5000/students")
+      .get(API_URL)
       .then((response) => {
         setStudents(response.data);
       })
@@ -23,13 +27,13 @@ function App() {
 
   const handleAddStudent = () => {
     axios
-      .post("http://localhost:5000/students", {
+      .post(API_URL, {
         name,
         course,
         age,
       })
-      .then((response) => {
-        setStudents([...students, response.data]);
+      .then(() => {
+        fetchStudents();
         setName("");
         setCourse("");
         setAge("");
@@ -39,7 +43,7 @@ function App() {
 
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:5000/students/${id}`)
+      .delete(`${API_URL}/${id}`)
       .then(() => {
         fetchStudents();
       })
@@ -57,7 +61,7 @@ function App() {
 
   const handleUpdateStudent = () => {
     axios
-      .put(`http://localhost:5000/students/${editingId}`, {
+      .put(`${API_URL}/${editingId}`, {
         name,
         course,
         age,
